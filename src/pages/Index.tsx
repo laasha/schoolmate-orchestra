@@ -52,7 +52,7 @@ import {
   X,
   Menu,
   Home,
-  Settings,
+  Wrench,
   HelpCircle,
   Shield,
   Clock,
@@ -634,7 +634,7 @@ const Index = () => {
 
           <nav className="hidden md:flex items-center gap-6">
             <Button variant="ghost" size="sm">
-              <Tool className="h-4 w-4 mr-2" />
+              <Wrench className="h-4 w-4 mr-2" />
               {text('tools', 'ხელსაწყოები', 'Tools')}
             </Button>
             <Button variant="ghost" size="sm">
