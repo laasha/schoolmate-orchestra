@@ -759,7 +759,6 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {SUPER_ASSISTANTS.map((assistant) => {
-              console.log('Assistant icon:', assistant.icon, 'for', assistant.id);
               const Icon = assistant.icon;
               return (
                 <Card key={assistant.id} className="cursor-pointer hover:shadow-lg transition-all duration-200 group">
@@ -822,7 +821,6 @@ const Index = () => {
           {/* Category Filters */}
           <div className="flex flex-wrap gap-2 mb-4">
             {categories.map((category) => {
-              console.log('Category icon:', category.icon, 'for', category.value);
               const Icon = category.icon;
               return (
                 <Button
