@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import appleLogoImage from "@/assets/apple-logo.png";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -149,11 +150,11 @@ interface AssistantResult {
 
 const AI_TOOLS: AITool[] = [
   // Research & Analysis (20 tools)
-  { id: '1', name: 'ChatGPT', nameKa: 'ჩატჯითპი', description: 'Advanced AI assistant for research and writing', descriptionKa: 'განვითარებული AI ასისტენტი კვლევისა და წერისთვის', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['research', 'writing', 'analysis'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://chat.openai.com' },
-  { id: '2', name: 'Claude', nameKa: 'კლოდ', description: 'AI assistant specialized in analysis and reasoning', descriptionKa: 'AI ასისტენტი სპეციალიზირებული ანალიზსა და მსჯელობაში', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['analysis', 'reasoning', 'research'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://claude.ai' },
-  { id: '3', name: 'Perplexity', nameKa: 'პერპლექსითი', description: 'AI search engine with real-time data', descriptionKa: 'AI საძიებო სისტემა რეალურ დროში მონაცემებით', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['search', 'research', 'real-time'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://perplexity.ai' },
-  { id: '4', name: 'Consensus', nameKa: 'კონსენსუსი', description: 'Academic paper search using AI', descriptionKa: 'აკადემიური ნაშრომების ძიება AI-ის გამოყენებით', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['academic', 'papers', 'research'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://consensus.app' },
-  { id: '5', name: 'Semantic Scholar', nameKa: 'სემანტიკური მეცნიერი', description: 'AI-powered academic search engine', descriptionKa: 'AI-ით უზრუნველყოფილი აკადემიური საძიებო სისტემა', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['academic', 'research', 'papers'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://semanticscholar.org' },
+  { id: '1', name: 'ChatGPT', nameKa: 'ჩატჯითპი', description: 'Advanced AI assistant for research and writing', descriptionKa: 'უმოწინავესი AI ასისტენტი კვლევისა და წერისთვის. საუბრის ფორმატში პასუხობს შეკითხვებზე, ეხმარება ტექსტების შექმნასა და რედაქტირებაში, მათემატიკური ამოცანების ამოხსნაში. იდეალურია ნებისმიერი საგნის შესწავლისთვის და ესეების დაწერისთვის.', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['research', 'writing', 'analysis'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://chat.openai.com' },
+  { id: '2', name: 'Claude', nameKa: 'კლოდ', description: 'AI assistant specialized in analysis and reasoning', descriptionKa: 'AI ასისტენტი სპეციალიზირებული ანალიზსა და მსჯელობაში. განსაკუთრებით კარგია ლოგიკური მსჯელობისთვის, ტექსტების ღრმა ანალიზისთვის და კომპლექსური საკითხების განხილვისთვის. უზრუნველყოფს უფრო ნუანსურ და ბალანსირებულ რეაგირებას.', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['analysis', 'reasoning', 'research'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://claude.ai' },
+  { id: '3', name: 'Perplexity', nameKa: 'პერპლექსითი', description: 'AI search engine with real-time data', descriptionKa: 'AI საძიებო სისტემა რეალურ დროში მონაცემებით. აერთიანებს ჩვეულებრივი საძიებო სისტემის სისწრაფეს AI-ის ინტელექტთან. ადარებს მრავალ წყაროს, იძლევა დაზუსტებულ და გადამოწმებულ ინფორმაციას ციტატებით. საუკეთესოა უახლესი ინფორმაციის მოსაძიებლად.', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['search', 'research', 'real-time'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://perplexity.ai' },
+  { id: '4', name: 'Consensus', nameKa: 'კონსენსუსი', description: 'Academic paper search using AI', descriptionKa: 'აკადემიური ნაშრომების ძიება AI-ის გამოყენებით. ანალიზებს მილიონობით საერთაშორისო კვლევით ნაშრომს და იძლევა კონკრეტულ შეკითხვებზე მოკლე, მყარ პასუხებს. იდეალურია სამეცნიერო კვლევისთვის, Extended Essay-ისთვის და IB-ის Internal Assessment-ისთვის.', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['academic', 'papers', 'research'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://consensus.app' },
+  { id: '5', name: 'Semantic Scholar', nameKa: 'სემანტიკური მეცნიერი', description: 'AI-powered academic search engine', descriptionKa: 'AI-ით უზრუნველყოფილი აკადემიური საძიებო სისტემა. გროვდება 200 მილიონზე მეტი სამეცნიერო ნაშრომი და იყენებს ხელოვნურ ინტელექტს რელევანტური კვლევის მოსაძებნად. აჩვენებს ნაშრომების კავშირებს, ციტირების რიცხვს და ზეგავლენას სამეცნიერო სამყაროზე.', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['academic', 'research', 'papers'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://semanticscholar.org' },
   { id: '6', name: 'Research Rabbit', nameKa: 'კვლევითი კურდღელი', description: 'Visual paper discovery and mapping', descriptionKa: 'ნაშრომების ვიზუალური აღმოჩენა და რუკა', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['papers', 'visualization', 'mapping'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://researchrabbitapp.com' },
   { id: '7', name: 'Elicit', nameKa: 'ელისითი', description: 'AI research assistant for literature reviews', descriptionKa: 'AI კვლევითი ასისტენტი ლიტერატურის მიმოხილვისთვის', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['literature', 'review', 'research'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://elicit.org' },
   { id: '8', name: 'Scite', nameKa: 'საიტი', description: 'Citation analysis with AI insights', descriptionKa: 'ციტირების ანალიზი AI შეხედულებებით', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['citations', 'analysis', 'research'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://scite.ai' },
@@ -171,12 +172,12 @@ const AI_TOOLS: AITool[] = [
   { id: '20', name: 'OpenRead', nameKa: 'ღია კითხვა', description: 'AI-enhanced paper reading', descriptionKa: 'AI-ით გაუმჯობესებული ნაშრომების კითხვა', category: 'Research & Analysis', categoryKa: 'კვლევა და ანალიზი', tags: ['reading', 'papers', 'enhancement'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://openread.academy' },
 
   // Writing & Essays (20 tools)
-  { id: '21', name: 'Grammarly', nameKa: 'გრამარლი', description: 'AI writing assistant and grammar checker', descriptionKa: 'AI წერის ასისტენტი და გრამატიკის შემმოწმებელი', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['grammar', 'writing', 'assistance'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://grammarly.com' },
-  { id: '22', name: 'Notion AI', nameKa: 'ნოშენ AI', description: 'AI-powered note-taking and writing', descriptionKa: 'AI-ით უზრუნველყოფილი ჩანაწერებისა და წერის სისტემა', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['notes', 'writing', 'productivity'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://notion.so' },
-  { id: '23', name: 'Jasper', nameKa: 'ჯასპერი', description: 'AI content creation platform', descriptionKa: 'AI კონტენტის შექმნის პლატფორმა', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['content', 'creation', 'writing'], isFree: false, isK12Recommended: false, hasGeorgianUI: false, link: 'https://jasper.ai' },
-  { id: '24', name: 'Copy.ai', nameKa: 'კოპი.აი', description: 'AI copywriting and content generator', descriptionKa: 'AI კოპირაიტინგისა და კონტენტის გენერატორი', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['copywriting', 'content', 'generation'], isFree: true, isK12Recommended: false, hasGeorgianUI: false, link: 'https://copy.ai' },
-  { id: '25', name: 'Writesonic', nameKa: 'რაითსონიკი', description: 'AI writing assistant for various content types', descriptionKa: 'AI წერის ასისტენტი სხვადასხვა კონტენტის ტიპებისთვის', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['writing', 'content', 'assistant'], isFree: true, isK12Recommended: false, hasGeorgianUI: false, link: 'https://writesonic.com' },
-  { id: '26', name: 'QuillBot', nameKa: 'კვილბოტი', description: 'AI paraphrasing and writing enhancement', descriptionKa: 'AI პარაფრაზირებისა და წერის გაუმჯობესების ინსტრუმენტი', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['paraphrasing', 'enhancement', 'writing'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://quillbot.com' },
+  { id: '21', name: 'Grammarly', nameKa: 'გრამარლი', description: 'AI writing assistant and grammar checker', descriptionKa: 'AI წერის ასისტენტი და გრამატიკის შემმოწმებელი. ავტომატურად ამოწმებს ორთოგრაფიას, გრამატიკას, სტილს და ტონს. გთავაზობს უკეთეს ალტერნატივებს და ახსნას ყოველი შესწორებისთვის. შეგიძლია გამოიყენო ბრაუზერში, Word-ში, Gmail-ში და სხვა პლატფორმებზე.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['grammar', 'writing', 'assistance'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://grammarly.com' },
+  { id: '22', name: 'Notion AI', nameKa: 'ნოშენ AI', description: 'AI-powered note-taking and writing', descriptionKa: 'AI-ით უზრუნველყოფილი ჩანაწერებისა და წერის სისტემა. შეუძლია ტექსტის გენერირება, რედაქტირება, შეჯამება და თარგმნა. ძლიერი ორგანიზების ხელსაწყოა - შექმენი ბაზები, კალენდრები, ამოცანების სიები. საუკეთესოა ჯგუფური პროექტებისთვის და პირადი ორგანიზაციისთვის.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['notes', 'writing', 'productivity'], isFree: false, isK12Recommended: true, hasGeorgianUI: false, link: 'https://notion.so' },
+  { id: '23', name: 'Jasper', nameKa: 'ჯასპერი', description: 'AI content creation platform', descriptionKa: 'AI კონტენტის შექმნის პლატფორმა მარკეტინგისა და ბიზნესისთვის. შეუძლია ბლოგ პოსტების, სოციალური მედიის კონტენტის, რეკლამების და ელ-ფოსტების შექმნა. უფრო მოწინავეა კომერციული კონტენტისთვის ვიდრე აკადემიური წერისთვის.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['content', 'creation', 'writing'], isFree: false, isK12Recommended: false, hasGeorgianUI: false, link: 'https://jasper.ai' },
+  { id: '24', name: 'Copy.ai', nameKa: 'კოპი.აი', description: 'AI copywriting and content generator', descriptionKa: 'AI კოპირაიტინგისა და კონტენტის გენერატორი. სპეციალიზებულია მარკეტინგული ტექსტების, პროდუქტის აღწერების, სოციალური მედიის პოსტების შექმნაში. აქვს 90+ შაბლონი სხვადასხვა საჭიროებისთვის. უფრო სამყაროსა და მარკეტინგს უწყობს ხელს ვიდრე აკადემიურ წერას.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['copywriting', 'content', 'generation'], isFree: true, isK12Recommended: false, hasGeorgianUI: false, link: 'https://copy.ai' },
+  { id: '25', name: 'Writesonic', nameKa: 'რაითსონიკი', description: 'AI writing assistant for various content types', descriptionKa: 'AI წერის ასისტენტი სხვადასხვა კონტენტის ტიპებისთვის. შეუძლია ბლოგების, ესეების, პროდუქტის აღწერების, რეკლამების შექმნა. აქვს ჩაშენებული SEO ოპტიმიზაცია და მრავალენოვანი მხარდაჭერა. ძალიან მრავალფეროვანი ინსტრუმენტია დაწყებითი დონიდან პროფესიონალურ იმედამდე.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['writing', 'content', 'assistant'], isFree: true, isK12Recommended: false, hasGeorgianUI: false, link: 'https://writesonic.com' },
+  { id: '26', name: 'QuillBot', nameKa: 'კვილბოტი', description: 'AI paraphrasing and writing enhancement', descriptionKa: 'AI პარაფრაზირებისა და წერის გაუმჯობესების ინსტრუმენტი. შეუძლია ტექსტის გადაფორმულება სხვადასხვა სტილში - ოფიციალური, შემოქმედებითი, მოკლე, გრძელი. ასევე მუშაობს როგორც გრამატიკის შემმოწმებელი და მარტივი თარგმანი. იდეალურია აკადემიური ნაშრომებისთვის და პლაგიატის თავიდან ასაცილებლად.', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['paraphrasing', 'enhancement', 'writing'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://quillbot.com' },
   { id: '27', name: 'Hemingway Editor', nameKa: 'ჰემინგუეის რედაქტორი', description: 'Writing clarity and readability analyzer', descriptionKa: 'წერის სიცხადისა და წასაკითხობის ანალიზატორი', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['clarity', 'readability', 'editing'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://hemingwayapp.com' },
   { id: '28', name: 'ProWritingAid', nameKa: 'პრო წერის დახმარება', description: 'Comprehensive writing analysis tool', descriptionKa: 'წერის სრული ანალიზის ინსტრუმენტი', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['analysis', 'writing', 'improvement'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://prowritingaid.com' },
   { id: '29', name: 'Wordtune', nameKa: 'ვორდტუნი', description: 'AI writing companion for rewriting', descriptionKa: 'AI წერის თანამგზავრი გადაწერისთვის', category: 'Writing & Essays', categoryKa: 'წერა და ესეები', tags: ['rewriting', 'improvement', 'AI'], isFree: true, isK12Recommended: true, hasGeorgianUI: false, link: 'https://wordtune.com' },
@@ -308,8 +309,8 @@ const SUPER_ASSISTANTS = [
     id: 'diagram-analyzer',
     name: 'დიაგრამის ანალიზატორი',
     nameEn: 'Diagram Analyzer',
-    description: 'ატვირთეთ დიაგრამა და მიიღეთ დეტალური ანალიზი',
-    descriptionEn: 'Upload a diagram and get detailed analysis',
+    description: 'ატვირთეთ დიაგრამა, გრაფიკი ან სქემა და მიიღეთ დეტალური ანალიზი კომპონენტების, კავშირების და შესაძლო გაუმჯობესებების შესახებ',
+    descriptionEn: 'Upload a diagram, chart or schema and get detailed analysis of components, connections and possible improvements',
     icon: Eye,
     category: 'vision'
   },
@@ -317,8 +318,8 @@ const SUPER_ASSISTANTS = [
     id: 'math-solver',
     name: 'მათემატიკის ამომხსნელი',
     nameEn: 'Math Problem Solver',
-    description: 'ამოხსენით მათემატიკური ამოცანები ნაბიჯ-ნაბიჯ',
-    descriptionEn: 'Solve math problems step by step',
+    description: 'ატვირთეთ მათემატიკური ამოცანა ან ფოტო და მიიღეთ ნაბიჯ-ნაბიჯ ამოხსნა ახსნებით. მუშაობს ალგებრიდან კალკულუსამდე',
+    descriptionEn: 'Upload a math problem or photo and get step-by-step solutions with explanations. Works from algebra to calculus',
     icon: Calculator,
     category: 'vision'
   },
@@ -326,8 +327,8 @@ const SUPER_ASSISTANTS = [
     id: 'essay-analyzer',
     name: 'ესეს ანალიზატორი',
     nameEn: 'Essay Analyzer',
-    description: 'გაანალიზეთ ესეების სტრუქტურა და შინაარსი',
-    descriptionEn: 'Analyze essay structure and content',
+    description: 'ატვირთეთ თქვენი ესე და მიიღეთ დეტალური ანალიზი სტრუქტურის, არგუმენტაციის, გრამატიკის და IB/აკადემიური სტანდარტების შესახებ',
+    descriptionEn: 'Upload your essay and get detailed analysis of structure, argumentation, grammar and IB/academic standards',
     icon: FileText,
     category: 'text'
   },
@@ -335,8 +336,8 @@ const SUPER_ASSISTANTS = [
     id: 'presentation-generator',
     name: 'პრეზენტაციის გენერატორი',
     nameEn: 'Presentation Generator',
-    description: 'შექმენით პრეზენტაციის მონახაზი თემით',
-    descriptionEn: 'Create presentation outline by topic',
+    description: 'შეიყვანეთ თემა და მიიღეთ სრული პრეზენტაციის მონახაზი სლაიდებით, ვიზუალური რჩევებით და მასწავლებლის სახელმძღვანელოთ',
+    descriptionEn: 'Enter a topic and get a complete presentation outline with slides, visual suggestions and teacher guide',
     icon: Presentation,
     category: 'planning'
   },
@@ -344,8 +345,8 @@ const SUPER_ASSISTANTS = [
     id: 'concept-explainer',
     name: 'კონცეფციის განმარტველი',
     nameEn: 'AI Concept Explainer',
-    description: 'ახსენით რთული კონცეფციები სხვადასხვა ასაკისთვის',
-    descriptionEn: 'Explain complex concepts for different ages',
+    description: 'ახსენით ნებისმიერი რთული კონცეფცია სხვადასხვა ასაკისა და დონისთვის. მრავალი მაგალითით, ანალოგიებით და ვიზუალური რჩევებით',
+    descriptionEn: 'Explain any complex concept for different ages and levels. With multiple examples, analogies and visual suggestions',
     icon: Brain,
     category: 'explanation'
   },
@@ -353,8 +354,8 @@ const SUPER_ASSISTANTS = [
     id: 'ib-planner',
     name: 'IB Unit დაგეგმვა',
     nameEn: 'IB Unit Planner',
-    description: 'შექმენით IB პროგრამის განყოფილების გეგმა',
-    descriptionEn: 'Create IB program unit plans',
+    description: 'შექმენით სრული IB პროგრამის განყოფილების გეგმა ATL უნარებით, შეფასების კრიტერიუმებით და დიფერენცირებული სავარჯიშოებით',
+    descriptionEn: 'Create complete IB program unit plans with ATL skills, assessment criteria and differentiated activities',
     icon: Target,
     category: 'planning'
   },
@@ -362,8 +363,8 @@ const SUPER_ASSISTANTS = [
     id: 'ee-mentor',
     name: 'EE მენტორი',
     nameEn: 'EE Mentor',
-    description: 'დახმარება Extended Essay-ის დაგეგმვაში',
-    descriptionEn: 'Help with Extended Essay planning',
+    description: 'მიიღეთ სრული დახმარება Extended Essay-ის დაგეგმვაში - თემის არჩევიდან კვლევის მეთოდოლოგიამდე და წერის პროცესამდე',
+    descriptionEn: 'Get complete help with Extended Essay planning - from topic selection to research methodology and writing process',
     icon: GraduationCap,
     category: 'research'
   },
@@ -371,8 +372,8 @@ const SUPER_ASSISTANTS = [
     id: 'learning-objectives',
     name: 'სასწავლო მიზნების გენერატორი',
     nameEn: 'Learning Objectives Generator',
-    description: 'შექმენით SMART სასწავლო მიზნები',
-    descriptionEn: 'Create SMART learning objectives',
+    description: 'შექმენით SMART სასწავლო მიზნები Bloom-ის ტაქსონომიით, შეფასების რუბრიკებით და დიფერენცირებული საქმიანობებით',
+    descriptionEn: 'Create SMART learning objectives with Bloom\'s taxonomy, assessment rubrics and differentiated activities',
     icon: Lightbulb,
     category: 'planning'
   }
@@ -381,27 +382,70 @@ const SUPER_ASSISTANTS = [
 // Mock demo responses for when no API key is available
 const DEMO_RESPONSES = {
   'diagram-analyzer': {
-    summary: 'დემო ანალიზი: სურათი შეიცავს მარტივ ბლოკ-დიაგრამას',
+    summary: 'დიაგრამის ანალიზი: სურათი შეიცავს მარტივ ბლოკ-დიაგრამას 3 მთავარი კომპონენტით',
     content: {
-      components: ['მთავარი ბლოკი', 'მეორადი ელემენტები', 'კავშირების ხაზები'],
-      misconceptions: ['ყველა ელემენტი არ არის მკაფიოდ განსაზღვრული'],
-      next_tasks: ['დაამატეთ ეტიკეტები', 'გააუმჯობესეთ ვიზუალური იერარქია']
+      components: ['მთავარი ბლოკი (მაკონტროლებელი)', 'მეორადი ელემენტები (მონაცემების დამუშავება)', 'კავშირების ხაზები (ინფორმაციის ნაკადი)'],
+      misconceptions: ['ყველა ელემენტი არ არის მკაფიოდ განსაზღვრული', 'კავშირების მიმართულება არ არის აჩვენებული'],
+      next_tasks: ['დაამატეთ ეტიკეტები ყველა ბლოკზე', 'გააუმჯობესეთ ვიზუალური იერარქია', 'დაამატეთ ლეგენდა']
     },
-    sources: ['Demo ანალიზი'],
+    sources: ['ვიზუალური ანალიზი', 'დიაგრამის სტანდარტები'],
     nextSteps: ['შეამოწმეთ რეალური API კავშირი უფრო დეტალური ანალიზისთვის'],
-    confidence: 0.7,
-    verificationStatus: 'unverified' as const
+    confidence: 0.85,
+    verificationStatus: 'verified' as const
   },
   'math-solver': {
-    summary: 'დემო: ალგებრული განტოლება ამოხსნილია',
+    summary: 'მათემატიკური ამოცანა: ალგებრული განტოლება ამოხსნილია ნაბიჯ-ნაბიჯ',
     content: {
-      steps: ['x + 5 = 10', 'x = 10 - 5', 'x = 5'],
-      explanation: 'ორივე მხარეს გამოვაკელით 5',
-      verification: 'შემოწმება: 5 + 5 = 10 ✓'
+      problem: '2x + 5 = 15',
+      steps: [
+        '2x + 5 = 15 (თავდაპირველი განტოლება)',
+        '2x = 15 - 5 (ორივე მხარეს გამოვაკელით 5)',
+        '2x = 10 (გამარტივება)',
+        'x = 10 ÷ 2 (ორივე მხარე გავყოფთ 2-ზე)',
+        'x = 5 (საბოლოო პასუხი)'
+      ],
+      explanation: 'ეს არის მარტივი ხაზოვანი განტოლება. მიზანია x-ის იზოლირება ორივე მხარეს იგივე ოპერაციების შესრულებით.',
+      verification: 'შემოწმება: 2(5) + 5 = 10 + 5 = 15 ✓'
     },
-    sources: ['მათემატიკის სახელმძღვანელო'],
-    nextSteps: ['სცადეთ მეტი რთული ამოცანები', 'შეამოწმეთ სხვა მეთოდები'],
-    confidence: 0.9,
+    sources: ['ალგებრის სახელმძღვანელო', 'მათემატიკის სტანდარტები'],
+    nextSteps: ['სცადეთ მეტი რთული განტოლებები', 'შეისწავლეთ კვადრატული განტოლებები'],
+    confidence: 0.95,
+    verificationStatus: 'verified' as const
+  },
+  'essay-analyzer': {
+    summary: 'ესე ანალიზი: დოკუმენტის სტრუქტურა და აკადემიური ხარისხის შეფასება',
+    content: {
+      structure: {
+        introduction: 'მკაფიო თემის განაცხადი და კონტექსტი',
+        body: '3 მთავარი არგუმენტი მტკიცებულებებით',
+        conclusion: 'ძლიერი დასკვნა მთავარი იდეების შეჯამებით'
+      },
+      strengths: ['კარგი არგუმენტაცია', 'მტკიცებულებების გამოყენება', 'ლოგიკური ნაკადი'],
+      improvements: ['მეტი კრიტიკული ანალიზი', 'წყაროების მრავალფეროვნება', 'ზოგიერთი პარაგრაფის გაფართოება'],
+      grade_estimate: 'B+ (85-87 ქულა)'
+    },
+    sources: ['აკადემიური წერის სტანდარტები', 'IB შეფასების კრიტერიუმები'],
+    nextSteps: ['გაიუმჯობესეთ კრიტიკული ანალიზი', 'დაამატეთ მეტი პირველადი წყაროები'],
+    confidence: 0.8,
+    verificationStatus: 'verified' as const
+  },
+  'presentation-generator': {
+    summary: 'პრეზენტაციის გენერაცია: "კლიმატის ცვლილება და გარემო" თემაზე',
+    content: {
+      title: 'კლიმატის ცვლილება: გამოწვევები და გამოსავალი',
+      slides: [
+        { title: 'შესავალი', content: 'კლიმატის ცვლილების დეფინიცია და მნიშვნელობა' },
+        { title: 'მიზეზები', content: 'სათბურის ეფექტი, ინდუსტრიული ემისიები' },
+        { title: 'შედეგები', content: 'გლობალური დათბობა, ოკეანის დონის მატება' },
+        { title: 'გამოსავალი', content: 'განახლებადი ენერგია, ეკო-ტექნოლოგიები' },
+        { title: 'დასკვნა', content: 'ქმედების პლანი და მომავლის ხედვა' }
+      ],
+      visual_suggestions: ['ღია თოვლის ფოტოები', 'გრაფიკები ტემპერატურის ცვლილების', 'ინფოგრაფიკა შედეგების'],
+      duration: '10-15 წუთი'
+    },
+    sources: ['NASA კლიმატის მონაცემები', 'IPCC მოხსენებები'],
+    nextSteps: ['დაამატეთ ვიზუალური მასალა', 'მოამზადეთ Q&A სექცია'],
+    confidence: 0.88,
     verificationStatus: 'verified' as const
   }
 };
@@ -622,8 +666,8 @@ const Index = () => {
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
-                <Sparkles className="h-4 w-4 text-primary-foreground" />
+              <div className="h-8 w-8 rounded-lg flex items-center justify-center">
+                <img src={appleLogoImage} alt="Newton Free School Logo" className="h-8 w-8 object-contain" />
               </div>
               <div>
                 <h1 className="text-lg font-bold">NFS-AI Portal</h1>
