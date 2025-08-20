@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import appleLogoImage from "@/assets/apple-logo.png";
+import { DailyTips } from '@/components/DailyTips';
+import { QuickActions } from '@/components/QuickActions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -663,15 +665,15 @@ const Index = () => {
     <div className={`min-h-screen bg-background transition-colors duration-300 ${config.theme}`}>
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg flex items-center justify-center">
-                <img src={appleLogoImage} alt="Newton Free School Logo" className="h-8 w-8 object-contain" />
+        <div className="container flex h-14 items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100 border border-red-200/50">
+                <img src={appleLogoImage} alt="Newton Free School Logo" className="h-7 w-7 object-contain" />
               </div>
-              <div>
-                <h1 className="text-lg font-bold">NFS-AI Portal</h1>
-                <p className="text-xs text-muted-foreground">Newton Free School</p>
+              <div className="flex flex-col justify-center">
+                <h1 className="text-lg font-semibold leading-none">NFS-AI Portal</h1>
+                <p className="text-xs text-muted-foreground leading-none mt-0.5">Newton Free School</p>
               </div>
             </div>
           </div>
@@ -736,24 +738,45 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container py-8">
+      <main className="container py-6">
+        <div className="space-y-6">
+          
+          {/* Tips and Quick Actions Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="lg:col-span-2">
+              <DailyTips language={config.language} />
+            </div>
+            <div>
+              <QuickActions 
+                language={config.language} 
+                onActionClick={(actionId) => {
+                  // Handle quick action clicks
+                  const toolsSection = document.getElementById('ai-tools');
+                  if (toolsSection) {
+                    toolsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }} 
+              />
+            </div>
+          </div>
+
         {/* Hero Section */}
-        <section className="text-center py-12 mb-12">
+        <section className="text-center py-8 mb-8">
           <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4">
               {text('hero-title', 'AI-ით გაძლიერებული სწავლება', 'AI-Powered Learning')}
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-lg text-muted-foreground mb-6">
               {text('hero-desc', 'აღმოაჩინეთ 140+ AI ხელსაწყო და 8 სუპერასისტენტი თქვენი სასწავლო მოგზაურობისთვის', 'Discover 140+ AI tools and 8 super assistants for your learning journey')}
             </p>
             
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <Button size="lg" className="gap-2">
-                <Zap className="h-5 w-5" />
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              <Button size="default" className="gap-2">
+                <Zap className="h-4 w-4" />
                 {text('start', 'დაიწყეთ ახლავე', 'Start Now')}
               </Button>
-              <Button size="lg" variant="outline" className="gap-2">
-                <HelpCircle className="h-5 w-5" />
+              <Button size="default" variant="outline" className="gap-2">
+                <HelpCircle className="h-4 w-4" />
                 {text('guide', 'გზამკვლევი', 'Guide')}
               </Button>
             </div>
@@ -992,6 +1015,7 @@ const Index = () => {
             </div>
           )}
         </section>
+        </div>
       </main>
 
       {/* Command Palette */}
